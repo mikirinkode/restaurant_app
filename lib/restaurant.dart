@@ -6,7 +6,7 @@ class Restaurant {
   final String description;
   final String pictureId;
   final String city;
-  final String rating;
+  final double rating;
   final List<Menu> menus;
 
   Restaurant({required this.id,
@@ -23,7 +23,7 @@ class Restaurant {
           description: restaurant["description"],
           pictureId: restaurant["pictureId"],
           city: restaurant["city"],
-          rating: restaurant["rating"],
+          rating: restaurant["rating"].toDouble(),
           menus: []); // TODO
 }
 
@@ -51,6 +51,8 @@ List<Restaurant> parseRestaurants(String? json) {
     return [];
   }
 
-  final List parsed = jsonDecode(json);
-  return parsed.map((json) => Restaurant.fromJson(json)).toList();
+  final Map<String, dynamic> parsed = jsonDecode(json);
+  final List data = parsed["restaurants"];
+  final result = data.map((json) => Restaurant.fromJson(json)).toList();
+  return result;
 }
